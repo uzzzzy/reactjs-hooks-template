@@ -1,4 +1,5 @@
 //import useState & useEffect here
+import { useEffect, useState } from 'react'
 import { 
     Container, 
     Row, Col, Form, 
@@ -6,6 +7,7 @@ import {
 
 import Welcome from './Welcome'
 import GuestGreeting from './GuestGreeting'
+
 
 function App() {
 
@@ -16,10 +18,30 @@ function App() {
             password: ''
         }
     })
+    
+    const data = require('./data.json')
 
     // Create DidMount with useEffect inside it can print "App Component Did Mount" & state value here
+    useEffect(() => {
+        console.log('App Component Did Mounted')
+        console.log(data)
+
+        if(state.user.email){
+            console.log('App Component Did Update')
+        }
+
+        return () => {
+            console.log('App Component Will Unmount')
+        }
+    }, [state])
 
     // Create DidUpdate with useEffect inside it can print "App Component Did Update" & state value here
+    const handleChange = (e) => {
+        setState({
+            ...state,
+            [e.target.name]:e.target.value
+        })
+    }
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -38,7 +60,7 @@ function App() {
         <>
             {state.isLogin ? <Welcome /> : 
                 (<>
-                    <GuestGreeting />
+                    <GuestGreeting name={state.user} />
                     <Container>
                         <Row 
                         className="d-flex justify-content-center mt-5">
@@ -50,6 +72,7 @@ function App() {
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control 
                                     id="email"
+                                    onChange={handleChange}
                                     name="email" size="sm" type="email" 
                                     placeholder="Enter email" />
                                 </Form.Group>
