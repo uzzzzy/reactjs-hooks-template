@@ -1,4 +1,5 @@
 //import useState here
+import {useState} from 'react'
 import { 
         Container, 
         Row, Col, Form, 
@@ -6,14 +7,24 @@ import {
 
 function ExampleForm() {
   //create state with attribute fullname, email & password here..
+  const [state, setState] = useState({
+    fullname: '',
+    email: '',
+    password: '',
+  })
 
   const handleOnChange = (e) => {
     // setState here
+    setState (prevState => ({
+      ...prevState,
+      [e.target.name]: e.target.value
+    }))
   }
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
     //print state value with console.log here
+    console.log(state)
   }
 
     return (
